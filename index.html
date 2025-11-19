@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>想你 - 温馨提示 (永久显示)</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #f0f0f0;
+            height: 100vh;
+            width: 100vw;
+            font-family: "Microsoft YaHei", "微软雅黑", sans-serif;
+        }
+
+        /* 模拟窗口的样式 */
+        .warm-tip-window {
+            position: absolute;
+            width: 250px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #999;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            font-size: 16px;
+            font-weight: bold;
+            color: #333;
+            z-index: 1000;
+            user-select: none;
+            cursor: pointer; /* 鼠标放上去显示小手 */
+            animation: popIn 0.3s ease-out;
+        }
+
+        /* 鼠标悬停效果 */
+        .warm-tip-window:hover {
+            transform: scale(1.05);
+            z-index: 1001; /* 悬停时浮在最上层 */
+            box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+        }
+
+        @keyframes popIn {
+            0% { transform: scale(0); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+
+<script>
+    const tips = [
+        '张鸿帅多喝水哦~', '张鸿帅保持微笑呀', '张鸿帅每天都要元气满满',
+        '张鸿帅记得吃水果', '张鸿帅保持好心情', '张鸿帅好好爱自己', '张鸿帅我想你了',
+        '张鸿帅梦想成真', '张鸿帅期待下一次见面', '张鸿帅金榜题名',
+        '张鸿帅顺顺利利', '张鸿帅早点休息', '张鸿帅愿所有烦恼都消失',
+        '张鸿帅别熬夜', '张鸿帅今天过得开心嘛', '张鸿帅天冷了，多穿衣服'
+    ];
+
+    const bgColors = [
+        'lightpink', 'skyblue', 'lightgreen', 'lavender',
+        'lightyellow', 'plum', 'coral', 'bisque', 'aquamarine',
+        'mistyrose', 'honeydew', 'lavenderblush', 'oldlace'
+    ];
+
+    function showWarmTip() {
+        const tipWindow = document.createElement('div');
+        tipWindow.className = 'warm-tip-window';
+
+        const text = tips[Math.floor(Math.random() * tips.length)];
+        const color = bgColors[Math.floor(Math.random() * bgColors.length)];
+
+        tipWindow.innerText = text;
+        tipWindow.style.backgroundColor = color;
+
+        const screenWidth = window.innerWidth;
+        const screenHeight = window.innerHeight;
+        const winWidth = 250;
+        const winHeight = 60;
+
+        // 随机位置
+        const x = Math.random() * (screenWidth - winWidth);
+        const y = Math.random() * (screenHeight - winHeight);
+
+        tipWindow.style.left = x + 'px';
+        tipWindow.style.top = y + 'px';
+        
+        // 添加点击关闭功能（防止满屏挡住无法操作，点击单个窗口可将其关闭）
+        tipWindow.onclick = function() {
+            this.style.opacity = "0";
+            setTimeout(() => {
+                if (this.parentNode) this.parentNode.removeChild(this);
+            }, 300);
+        };
+
+        document.body.appendChild(tipWindow);
+        
+        // ！！！已移除自动销毁代码！！！
+        // 窗口现在会一直保留
+    }
+
+    // 启动逻辑：创建50个窗口
+    const totalWindows = 50;
+    const intervalDelay = 100; // 0.1秒间隔
+
+    for (let i = 0; i < totalWindows; i++) {
+        setTimeout(() => {
+            showWarmTip();
+        }, i * intervalDelay);
+    }
+
+</script>
+
+</body>
+</html>
